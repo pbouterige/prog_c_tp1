@@ -68,6 +68,10 @@ void calculD1EF(double** M, double** MatriceA, int dim) {
     for (int i = 0; i < dim; i++)
         for (int j = 0; j < dim; j++)
             for (int a = 0; a < dim; a++) M[i][j] += d1[i][a] * S[a][j];
+    free2D(e, dim);
+    free2D(f, dim);
+    free2D(d1, dim);
+    free2D(S, dim);
 }
 
 void calculD1b(double* M, double** MatriceA, double* solution, int dim) {
@@ -80,24 +84,27 @@ void calculD1b(double* M, double** MatriceA, double* solution, int dim) {
             M[i] += d1[i][a] * solution[a];
             // affiche(M, dim);
         }
+    free2D(d1, dim);
 }
 
 double* Jacobi(double** MatriceA, int dim, double* solution) {
     double* D1b = (double*)malloc(dim * sizeof(double));
-    double* inconnu = (double*)malloc(dim * sizeof(double));
+    double* inconnu = NULL;
+    inconnu = (double*)malloc(dim * sizeof(double));
     double* precedent = (double*)malloc(dim * sizeof(double));
     double** D1EF = (double**)malloc(dim * sizeof(double*));
     for (int c = 0; c < dim; c++)
         D1EF[c] = (double*)malloc(dim * sizeof(double));
 
-    for (int i = 0; i < dim; ++i) inconnu[i] = 0;
+    double seuil = 0.000001;
+    for (int i = 0; i < dim; ++i) inconnu[i] = 0.0;
+    for (int i = 0; i < dim; ++i) precedent[i] = -2 * seuil;
 
     calculD1EF(D1EF, MatriceA, dim);
     // afficheM(D1EF, dim);
     calculD1b(D1b, MatriceA, solution, dim);
     // affiche(D1b, dim);
-    double seuil = 0.000001;
-    do {
+    while (fabs(inconnu[0] - precedent[0]) > seuil) {
         for (int i = 0; i < dim; i++) {
             precedent[i] = inconnu[i];
             inconnu[i] = 0.0;
@@ -107,7 +114,7 @@ double* Jacobi(double** MatriceA, int dim, double* solution) {
                 inconnu[i] += D1EF[i][a] * precedent[a];
             inconnu[i] += D1b[i];
         }
-    } while (fabs(inconnu[0] - precedent[0]) > seuil);
+    }
 
     free(precedent);
     free(D1b);

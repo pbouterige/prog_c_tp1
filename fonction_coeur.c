@@ -2,13 +2,13 @@
 
 double** creationMatriceVide(int dim) {
     double** M = (double**)malloc(dim * sizeof(double*));
-    for (int i = 0; i < dim; i++) M[i] = (double*)malloc(dim * sizeof(int));
+    for (int i = 0; i < dim; i++) M[i] = (double*)malloc(dim * sizeof(double));
     return M;
 }
 
 void afficheM(double** M, int dim) {
     for (int i = 0; i < dim; i++) {
-        for (int j = 0; j < dim; j++) printf("%f ", M[i][j]);
+        for (int j = 0; j < dim; j++) printf("%.3f ", M[i][j]);
         puts("");
     }
     puts("");
@@ -16,14 +16,14 @@ void afficheM(double** M, int dim) {
 
 void afficheMA(double** M, int dim) {
     for (int i = 0; i < dim; i++) {
-        for (int j = 0; j < dim + 1; j++) printf("%f ", M[i][j]);
+        for (int j = 0; j < dim + 1; j++) printf("%.3f ", M[i][j]);
         puts("");
     }
     puts("");
 }
 
 void affiche(double* M, int h) {
-    for (int i = 0; i < h; i++) printf("%f ", M[i]);
+    for (int i = 0; i < h; i++) printf("%.3f ", M[i]);
     puts("");
 }
 
@@ -63,13 +63,6 @@ double** matriceCreuse(int dim) {
         }
     }
     return MC;
-}
-
-double absdouble(double i) {
-    if (i > 0)
-        return i;
-    else
-        return -i;
 }
 
 void free2D(double** m, int dim) {

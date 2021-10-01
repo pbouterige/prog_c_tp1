@@ -11,7 +11,7 @@ double** matriceAug(double** matrice, int dim, double* solution) {
     // création amtrice augmentée
     double** matriceA = (double**)malloc(dim * sizeof(double*));
     for (int i = 0; i < dim; i++)
-        matriceA[i] = (double*)malloc((dim + 1) * sizeof(int));
+        matriceA[i] = (double*)malloc((dim + 1) * sizeof(double));
     // remplissage matrice
     for (int i = 0; i < dim; i++)
         for (int j = 0; j < dim; j++) matriceA[i][j] = matrice[i][j];
@@ -47,7 +47,7 @@ double* Gauss(double** MatriceA, int dim, bool* test) {
         else {
             double a = 0;
             int tour = i;
-            while (a == 0 && tour < (dim)) {
+            while (a == 0 && tour < dim) {
                 a = MatriceA[tour][i];
                 tour++;
             }
@@ -60,6 +60,7 @@ double* Gauss(double** MatriceA, int dim, bool* test) {
             }
         }
     }
+
     // résolution système
     double* resultat = (double*)malloc(dim * sizeof(double));
     resultat[dim - 1] = MatriceA[dim - 1][dim] / MatriceA[dim - 1][dim - 1];

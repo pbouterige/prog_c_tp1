@@ -26,7 +26,7 @@ bool DiagDominante(double** MatriceA, int dim) {
 
 double** E(double** MatriceA, int dim) {
     double** E = (double**)malloc(dim * sizeof(double*));
-    for (int i = 0; i < dim; i++) E[i] = (double*)malloc(dim * sizeof(int));
+    for (int i = 0; i < dim; i++) E[i] = (double*)malloc(dim * sizeof(double));
 
     for (int i = 0; i < dim; i++)
         for (int j = 0; j < dim; j++)
@@ -36,7 +36,7 @@ double** E(double** MatriceA, int dim) {
 
 double** F(double** MatriceA, int dim) {
     double** F = (double**)malloc(dim * sizeof(double*));
-    for (int i = 0; i < dim; i++) F[i] = (double*)malloc(dim * sizeof(int));
+    for (int i = 0; i < dim; i++) F[i] = (double*)malloc(dim * sizeof(double));
 
     for (int i = 0; i < dim; i++)
         for (int j = 0; j < dim; j++)
@@ -46,7 +46,7 @@ double** F(double** MatriceA, int dim) {
 
 double** D1(double** MatriceA, int dim) {
     double** D1 = (double**)malloc(dim * sizeof(double*));
-    for (int i = 0; i < dim; i++) D1[i] = (double*)malloc(dim * sizeof(int));
+    for (int i = 0; i < dim; i++) D1[i] = (double*)malloc(dim * sizeof(double));
 
     for (int i = 0; i < dim; i++)
         for (int j = 0; j < dim; j++)
@@ -90,6 +90,8 @@ double* Jacobi(double** MatriceA, int dim, double* solution) {
     for (int c = 0; c < dim; c++)
         D1EF[c] = (double*)malloc(dim * sizeof(double));
 
+    for (int i = 0; i < dim; ++i) inconnu[i] = 0;
+
     calculD1EF(D1EF, MatriceA, dim);
     // afficheM(D1EF, dim);
     calculD1b(D1b, MatriceA, solution, dim);
@@ -105,7 +107,11 @@ double* Jacobi(double** MatriceA, int dim, double* solution) {
                 inconnu[i] += D1EF[i][a] * precedent[a];
             inconnu[i] += D1b[i];
         }
-    } while (absdouble(inconnu[0] - precedent[0]) > seuil);
+    } while (fabs(inconnu[0] - precedent[0]) > seuil);
+
+    free(precedent);
+    free(D1b);
+    free2D(D1EF, dim);
 
     return inconnu;
 }

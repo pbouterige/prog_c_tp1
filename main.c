@@ -2,6 +2,66 @@
 #include "Jacobi.c"
 #include "en-tête.h"
 
+typedef enum { REMPLIR = 1, TEST = 2, CREUSE = 3 } Matrix_type;
+
+int main() {
+    srand(time(NULL));
+    int dim = 3;
+
+    double** matrice = Bord(dim);
+    double* solution = (double*)malloc(dim * sizeof(double));
+    remplirSol(solution, dim, 1);
+
+    puts("");
+    puts("Avec la matrice A :\n");
+    afficheM(matrice, dim);
+
+    double* resultatGauss = NULL;
+    double* resultatJacobi = NULL;
+    double** matriceA = matriceAug(matrice, dim, solution);
+    bool test = true;
+    resultatGauss = Gauss(matriceA, dim, &test);
+
+    if (DiagDominante(matrice, dim)) {
+        int a = 1;
+        resultatJacobi = Jacobi(matrice, dim, solution);
+        puts("On a les solutions suivantes avec Jacobi:\n ");
+        for (int i = 0; i < dim; i++) {
+            printf("x%d = %.3f  ", i + 1, resultatJacobi[i]);
+            if (a % 3 == 0) puts("");
+            a++;
+        }
+        puts("");
+
+    } else {
+        puts(
+            "désolé, votre matrice n'est pas diagonale dominante donc "
+            "Jacobi n'est pas adapté.");
+    }
+
+    puts("");
+    if (test) {
+        int a = 1;
+        puts("on a les solutions suivantes avec Gauss:\n ");
+        for (int i = 0; i < dim; i++) {
+            printf("x%d = %.3f  ", i + 1, resultatGauss[i]);
+            if (a % 3 == 0) puts("");
+            a++;
+        }
+        puts("");
+    } else
+        puts("Nous n'avons pas de solution à vous proposer");
+
+    free2D(matriceA, dim);
+    free2D(matrice, dim);
+    free(solution);
+    if (resultatGauss) free(resultatGauss);
+    if (resultatJacobi) free(resultatJacobi);
+
+    return 0;
+}
+
+/*
 int main() {
     srand(time(NULL));
     int dim;
@@ -23,7 +83,7 @@ LA:
         puts(
             " Quelle matrice test voulez-vous utiliser :\n 1)Bord       "
             "2)Dingdong   "
-            "3)Franc\n 4)Hilberb_m  5)Hilberd_p  6)kms\n 7)Lehmer     8)Lotkin "
+            "3)Franc\n 4)Hilberb_m  5)Hilberd_p  6)kms\n 7)Lehmer 8)Lotkin "
             "    "
             "9)Moler\n");
         scanf("%d", &choixmt);
@@ -59,9 +119,8 @@ LA:
                 matrice = Moler(dim);
                 break;
             default:
-                puts("désolé le nombre que vous avez entrez n'est pas valide.");
-                goto ICI;
-                break;
+                puts("désolé le nombre que vous avez entrez n'est pas
+valide."); goto ICI; break;
         }
     } else if (choix == 3)
         matrice = matriceCreuse(dim);
@@ -131,3 +190,4 @@ GJ:
     } else
         puts("Nous n'avons pas de solution à vous proposer");
 }
+ */

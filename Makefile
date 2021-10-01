@@ -1,2 +1,2 @@
 all:
-	gcc -o tp1 main.c -lm
+	gcc -o tp1 main.c -lm -g -Wall -Wpedantic -Wextra 

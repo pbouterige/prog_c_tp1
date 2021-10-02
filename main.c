@@ -6,9 +6,9 @@ typedef enum { REMPLIR = 1, TEST = 2, CREUSE = 3 } Matrix_type;
 
 int main() {
     srand(time(NULL));
-    int dim = 3;
+    int dim = 15;
 
-    double** matrice = Bord(dim);
+    double** matrice = Franc(dim);
     double* solution = (double*)malloc(dim * sizeof(double));
     remplirSol(solution, dim, 1);
 

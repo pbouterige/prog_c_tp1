@@ -8,7 +8,12 @@ double** creationMatriceVide(int dim) {
 
 void afficheM(double** M, int dim) {
     for (int i = 0; i < dim; i++) {
-        for (int j = 0; j < dim; j++) printf("%.3f ", M[i][j]);
+        for (int j = 0; j < dim; j++) {
+            if (M[i][j] < 10)
+                printf("%.3f ", M[i][j]);
+            else
+                printf("%.2f ", M[i][j]);
+        }
         puts("");
     }
     puts("");

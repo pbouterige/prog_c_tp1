@@ -65,6 +65,7 @@ double** matriceCreuse(int dim) {
                 MC[i][j] = 0.0;
             else
                 MC[i][j] = (double)(rand() % 4 + 1);
+            if (i == j) MC[i][j] = dim;
         }
     }
     return MC;

@@ -6,9 +6,9 @@ typedef enum { REMPLIR = 1, TEST = 2, CREUSE = 3 } Matrix_type;
 
 int main() {
     srand(time(NULL));
-    int dim = 15;
+    int dim = 500;
 
-    double** matrice = Franc(dim);
+    double** matrice = Bord(dim);
     double* solution = (double*)malloc(dim * sizeof(double));
     remplirSol(solution, dim, 1);
 
@@ -28,7 +28,7 @@ int main() {
         puts("On a les solutions suivantes avec Jacobi:\n ");
         for (int i = 0; i < dim; i++) {
             printf("x%d = %.3f  ", i + 1, resultatJacobi[i]);
-            if (a % 3 == 0) puts("");
+            if (a % 5 == 0) puts("");
             a++;
         }
         puts("");
@@ -45,7 +45,7 @@ int main() {
         puts("on a les solutions suivantes avec Gauss:\n ");
         for (int i = 0; i < dim; i++) {
             printf("x%d = %.3f  ", i + 1, resultatGauss[i]);
-            if (a % 3 == 0) puts("");
+            if (a % 5 == 0) puts("");
             a++;
         }
         puts("");

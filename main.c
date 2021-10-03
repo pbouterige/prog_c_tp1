@@ -2,19 +2,17 @@
 #include "Jacobi.c"
 #include "en-tête.h"
 
-typedef enum { REMPLIR = 1, TEST = 2, CREUSE = 3 } Matrix_type;
-
 int main() {
     srand(time(NULL));
-    int dim = 10;
+    int dim = 1000;
 
     double** matrice = matriceCreuse(dim);
     double* solution = (double*)malloc(dim * sizeof(double));
     remplirSol(solution, dim, 1);
 
-    puts("");
-    puts("Avec la matrice A :\n");
-    afficheM(matrice, dim);
+    // puts("");
+    // puts("Avec la matrice A :\n");
+    // afficheM(matrice, dim);
 
     double* resultatGauss = NULL;
     double* resultatJacobi = NULL;
@@ -30,17 +28,19 @@ int main() {
         puts("On a les solutions suivantes avec Jacobi:\n ");
         for (int i = 0; i < dim; i++) {
             printf("x%d = %.3f  ", i + 1, resultatJacobi[i]);
-            if (a % 5 == 0) puts("");
+            if (a % 9 == 0) puts("");
             a++;
         }
-        puts("");
+        puts("\n");
         verif_Jacobi = multMatrice(dim, matrice, resultatJacobi);
         puts("Vérification Jacobi:\n ");
         for (int i = 0; i < dim; i++) {
             printf("x%d = %.3f  ", i + 1, verif_Jacobi[i]);
-            if (a % 5 == 0) puts("");
+            if (a % 9 == 0) puts("");
             a++;
         }
+        puts("");
+        pourcentage_ecart(verif_Jacobi, dim);
         puts("");
     } else {
         puts(
@@ -54,17 +54,19 @@ int main() {
         puts("on a les solutions suivantes avec Gauss:\n ");
         for (int i = 0; i < dim; i++) {
             printf("x%d = %.3f  ", i + 1, resultatGauss[i]);
-            if (a % 5 == 0) puts("");
+            if (a % 9 == 0) puts("");
             a++;
         }
-        puts("");
+        puts("\n");
         verif_Gauss = multMatrice(dim, matrice, resultatGauss);
         puts("Vérification avec Gauss:\n ");
         for (int i = 0; i < dim; i++) {
             printf("x%d = %.3f  ", i + 1, verif_Gauss[i]);
-            if (a % 5 == 0) puts("");
+            if (a % 9 == 0) puts("");
             a++;
         }
+        puts("");
+        pourcentage_ecart(verif_Gauss, dim);
         puts("");
     } else
         puts("Nous n'avons pas de solution à vous proposer");

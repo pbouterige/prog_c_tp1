@@ -92,3 +92,14 @@ double* multMatrice(int dim, double** Ma, double* Mb) {
         }
     return verif;
 }
+
+void pourcentage_ecart(double* m, int dim) {
+    double somme = 0;
+    for (int i = 0; i < dim; i++) somme += 1 - m[i];
+    somme /= (double)dim;
+    somme *= 100;
+    printf(
+        "\nLe pourcentage d'écart entre la solution trouvée et la véritable "
+        "est de %f pourcents.\n",
+        fabs(somme));
+}

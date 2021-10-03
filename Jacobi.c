@@ -75,20 +75,21 @@ void calculD1EF(double** M, double** MatriceA, int dim) {
 }
 
 void calculD1b(double* M, double** MatriceA, double* solution, int dim) {
-    // création variable
     double** d1 = D1(MatriceA, dim);
-
-    // produit
-    for (int i = 0; i < dim; i++)
-        for (int a = 0; a < dim; a++) {
-            M[i] += d1[i][a] * solution[a];
-            // affiche(M, dim);
-        }
+    for (int i = 0; i < dim; i++) M[i] += d1[i][i] * solution[i];
     free2D(d1, dim);
+}
+
+bool test_J(double* m1, double* m2, int dim, double seuil) {
+    bool test = false;
+    for (int i = 0; i < dim; i++)
+        if (fabs(m1[i] - m2[i]) > seuil) test = true;
+    return test;
 }
 
 double* Jacobi(double** MatriceA, int dim, double* solution) {
     double* D1b = (double*)malloc(dim * sizeof(double));
+    for (int i = 0; i < dim; ++i) D1b[i] = 0.0;
     double* inconnu = NULL;
     inconnu = (double*)malloc(dim * sizeof(double));
     double* precedent = (double*)malloc(dim * sizeof(double));
@@ -104,7 +105,7 @@ double* Jacobi(double** MatriceA, int dim, double* solution) {
     // afficheM(D1EF, dim);
     calculD1b(D1b, MatriceA, solution, dim);
     // affiche(D1b, dim);
-    while (fabs(inconnu[0] - precedent[0]) > seuil) {
+    while (test_J(inconnu, precedent, dim, seuil)) {
         for (int i = 0; i < dim; i++) {
             precedent[i] = inconnu[i];
             inconnu[i] = 0.0;

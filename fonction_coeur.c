@@ -60,11 +60,11 @@ double** matriceCreuse(int dim) {
     int a;
     for (int i = 0; i < dim; i++) {
         for (int j = 0; j < dim; j++) {
-            a = rand() % 10;
-            if (a <= 7)
+            a = rand() % 100;
+            if (a <= 70)
                 MC[i][j] = 0.0;
             else
-                MC[i][j] = (double)(rand() % 4 + 1);
+                MC[i][j] = 1;
             if (i == j) MC[i][j] = dim;
         }
     }
@@ -81,4 +81,14 @@ void libereMemoire(double** matrice, double* resultat, double* solution,
     free2D(matrice, dim);
     free(resultat);
     free(solution);
+}
+
+double* multMatrice(int dim, double** Ma, double* Mb) {
+    double* verif = (double*)malloc(dim * sizeof(double));
+    for (int i = 0; i < dim; i++) verif[i] = 0;
+    for (int i = 0; i < dim; i++)
+        for (int j = 0; j < dim; j++) {
+            verif[i] += Ma[i][j] * Mb[j];
+        }
+    return verif;
 }

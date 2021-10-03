@@ -6,9 +6,9 @@ typedef enum { REMPLIR = 1, TEST = 2, CREUSE = 3 } Matrix_type;
 
 int main() {
     srand(time(NULL));
-    int dim = 500;
+    int dim = 10;
 
-    double** matrice = Bord(dim);
+    double** matrice = matriceCreuse(dim);
     double* solution = (double*)malloc(dim * sizeof(double));
     remplirSol(solution, dim, 1);
 
@@ -18,6 +18,8 @@ int main() {
 
     double* resultatGauss = NULL;
     double* resultatJacobi = NULL;
+    double* verif_Gauss = NULL;
+    double* verif_Jacobi = NULL;
     double** matriceA = matriceAug(matrice, dim, solution);
     bool test = true;
     resultatGauss = Gauss(matriceA, dim, &test);
@@ -32,7 +34,14 @@ int main() {
             a++;
         }
         puts("");
-
+        verif_Jacobi = multMatrice(dim, matrice, resultatJacobi);
+        puts("Vérification Jacobi:\n ");
+        for (int i = 0; i < dim; i++) {
+            printf("x%d = %.3f  ", i + 1, verif_Jacobi[i]);
+            if (a % 5 == 0) puts("");
+            a++;
+        }
+        puts("");
     } else {
         puts(
             "désolé, votre matrice n'est pas diagonale dominante donc "
@@ -49,6 +58,14 @@ int main() {
             a++;
         }
         puts("");
+        verif_Gauss = multMatrice(dim, matrice, resultatGauss);
+        puts("Vérification avec Gauss:\n ");
+        for (int i = 0; i < dim; i++) {
+            printf("x%d = %.3f  ", i + 1, verif_Gauss[i]);
+            if (a % 5 == 0) puts("");
+            a++;
+        }
+        puts("");
     } else
         puts("Nous n'avons pas de solution à vous proposer");
 
@@ -57,6 +74,8 @@ int main() {
     free(solution);
     if (resultatGauss) free(resultatGauss);
     if (resultatJacobi) free(resultatJacobi);
+    if (verif_Jacobi) free(verif_Jacobi);
+    if (verif_Gauss) free(verif_Gauss);
 
     return 0;
 }

@@ -87,7 +87,9 @@ bool test_J(double* m1, double* m2, int dim, double seuil) {
     return test;
 }
 
-double* Jacobi(double** MatriceA, int dim, double* solution) {
+double* Jacobi(double** MatriceA, int dim, double* solution, int* itération,
+               int* temps) {
+    *temps = 0;
     double* D1b = (double*)malloc(dim * sizeof(double));
     for (int i = 0; i < dim; ++i) D1b[i] = 0.0;
     double* inconnu = NULL;
@@ -115,6 +117,8 @@ double* Jacobi(double** MatriceA, int dim, double* solution) {
                 inconnu[i] += D1EF[i][a] * precedent[a];
             inconnu[i] += D1b[i];
         }
+        *itération = *itération + 1;
+        *temps = clock();
     }
 
     free(precedent);

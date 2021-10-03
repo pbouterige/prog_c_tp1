@@ -98,8 +98,12 @@ void pourcentage_ecart(double* m, int dim) {
     for (int i = 0; i < dim; i++) somme += 1 - m[i];
     somme /= (double)dim;
     somme *= 100;
-    printf(
-        "\nLe pourcentage d'écart entre la solution trouvée et la véritable "
-        "est de %f pourcents.\n",
-        fabs(somme));
+    printf("\nPourcentage d'écart  : %f %% \n", fabs(somme));
+}
+
+void fonction_erreur(double* m, int dim) {
+    double somme = 0;
+    for (int i = 0; i < dim; i++) somme += pow(m[i] - 1, 2);
+    somme = sqrt(somme);
+    printf("norme vecteur erreur : %f\n", somme);
 }

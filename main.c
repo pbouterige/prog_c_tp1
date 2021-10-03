@@ -4,7 +4,7 @@
 
 int main() {
     srand(time(NULL));
-    int dim = 1000;
+    int dim = 100;
 
     double** matrice = matriceCreuse(dim);
     double* solution = (double*)malloc(dim * sizeof(double));
@@ -20,54 +20,33 @@ int main() {
     double* verif_Jacobi = NULL;
     double** matriceA = matriceAug(matrice, dim, solution);
     bool test = true;
-    resultatGauss = Gauss(matriceA, dim, &test);
-
+    int temps = 0;
     if (DiagDominante(matrice, dim)) {
-        int a = 1;
-        resultatJacobi = Jacobi(matrice, dim, solution);
-        puts("On a les solutions suivantes avec Jacobi:\n ");
-        for (int i = 0; i < dim; i++) {
-            printf("x%d = %.3f  ", i + 1, resultatJacobi[i]);
-            if (a % 9 == 0) puts("");
-            a++;
-        }
-        puts("\n");
+        int itération = 0;
+        resultatJacobi = Jacobi(matrice, dim, solution, &itération, &temps);
+        puts("\n                 JACOBI                ");
         verif_Jacobi = multMatrice(dim, matrice, resultatJacobi);
-        puts("Vérification Jacobi:\n ");
-        for (int i = 0; i < dim; i++) {
-            printf("x%d = %.3f  ", i + 1, verif_Jacobi[i]);
-            if (a % 9 == 0) puts("");
-            a++;
-        }
-        puts("");
+        puts("-----------------------------------------");
         pourcentage_ecart(verif_Jacobi, dim);
-        puts("");
+        printf("nombres d'itérations : %d", itération);
+        printf("\ntemps execution      : %f s\n", (float)(temps) / 1000000);
+        fonction_erreur(verif_Jacobi, dim);
+        puts("-----------------------------------------");
     } else {
         puts(
             "désolé, votre matrice n'est pas diagonale dominante donc "
             "Jacobi n'est pas adapté.");
     }
 
-    puts("");
+    resultatGauss = Gauss(matriceA, dim, &test, &temps);
     if (test) {
-        int a = 1;
-        puts("on a les solutions suivantes avec Gauss:\n ");
-        for (int i = 0; i < dim; i++) {
-            printf("x%d = %.3f  ", i + 1, resultatGauss[i]);
-            if (a % 9 == 0) puts("");
-            a++;
-        }
-        puts("\n");
+        puts("\n                   GAUSS                ");
         verif_Gauss = multMatrice(dim, matrice, resultatGauss);
-        puts("Vérification avec Gauss:\n ");
-        for (int i = 0; i < dim; i++) {
-            printf("x%d = %.3f  ", i + 1, verif_Gauss[i]);
-            if (a % 9 == 0) puts("");
-            a++;
-        }
-        puts("");
+        puts("-----------------------------------------");
         pourcentage_ecart(verif_Gauss, dim);
-        puts("");
+        printf("temps execution        : %f s\n", (float)(temps) / 1000000);
+        fonction_erreur(verif_Gauss, dim);
+        puts("-----------------------------------------");
     } else
         puts("Nous n'avons pas de solution à vous proposer");
 
@@ -81,6 +60,13 @@ int main() {
 
     return 0;
 }
+
+// puts("On a les solutions suivantes avec Jacobi:\n ");
+//         for (int i = 0; i < dim; i++) {
+//             printf("x%d = %.3f  ", i + 1, resultatJacobi[i]);
+//             if (a % 9 == 0) puts("");
+//             a++;
+//         }
 
 /*
 int main() {

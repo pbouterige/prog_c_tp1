@@ -4,7 +4,7 @@
 
 int main() {
     srand(time(NULL));
-    int dim = 100;
+    int dim = 25;
 
     double** matrice = matriceCreuse(dim);
     double* solution = (double*)malloc(dim * sizeof(double));
@@ -27,9 +27,10 @@ int main() {
         puts("\n                 JACOBI                ");
         verif_Jacobi = multMatrice(dim, matrice, resultatJacobi);
         puts("-----------------------------------------");
+        printf("taille matrice     : %d x %d\n", dim, dim);
         pourcentage_ecart(verif_Jacobi, dim);
         printf("nombres d'itérations : %d", itération);
-        printf("\ntemps execution      : %f s\n", (float)(temps) / 1000000);
+        printf("\ntemps execution     : %f s\n", (float)(temps) / 1000000);
         fonction_erreur(verif_Jacobi, dim);
         puts("-----------------------------------------");
     } else {
@@ -40,9 +41,10 @@ int main() {
 
     resultatGauss = Gauss(matriceA, dim, &test, &temps);
     if (test) {
-        puts("\n                   GAUSS                ");
+        puts("\n                 GAUSS                ");
         verif_Gauss = multMatrice(dim, matrice, resultatGauss);
         puts("-----------------------------------------");
+        printf("taille matrice     : %d x %d\n", dim, dim);
         pourcentage_ecart(verif_Gauss, dim);
         printf("temps execution        : %f s\n", (float)(temps) / 1000000);
         fonction_erreur(verif_Gauss, dim);

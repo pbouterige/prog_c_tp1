@@ -98,7 +98,7 @@ void pourcentage_ecart(double* m, int dim) {
     for (int i = 0; i < dim; i++) somme += 1 - m[i];
     somme /= (double)dim;
     somme *= 100;
-    printf("\nPourcentage d'écart  : %f %% \n", fabs(somme));
+    printf("Pourcentage d'écart  : %f %% \n", fabs(somme));
 }
 
 void fonction_erreur(double* m, int dim) {

@@ -80,13 +80,6 @@ void calculD1b(double* M, double** MatriceA, double* solution, int dim) {
     free2D(d1, dim);
 }
 
-bool test_J(double* m1, double* m2, int dim, double seuil) {
-    bool test = false;
-    for (int i = 0; i < dim; i++)
-        if (fabs(m1[i] - m2[i]) > seuil) test = true;
-    return test;
-}
-
 double* Jacobi(double** MatriceA, int dim, double* solution, int* itération,
                int* temps) {
     *temps = 0;
@@ -107,7 +100,7 @@ double* Jacobi(double** MatriceA, int dim, double* solution, int* itération,
     // afficheM(D1EF, dim);
     calculD1b(D1b, MatriceA, solution, dim);
     // affiche(D1b, dim);
-    while (test_J(inconnu, precedent, dim, seuil)) {
+    while (fabs(inconnu[0] - precedent[0]) > seuil) {
         for (int i = 0; i < dim; i++) {
             precedent[i] = inconnu[i];
             inconnu[i] = 0.0;

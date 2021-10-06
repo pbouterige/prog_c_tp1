@@ -39,9 +39,8 @@ void echelonnage(double** M, int dim, int i) {
     }
 }
 
-double* Gauss(double** MatriceA, int dim, bool* test, int* temps) {
+double* Gauss(double** MatriceA, int dim, bool* test) {
     //échelonnage matrice
-    *temps = 0;
     for (int i = 0; i < dim; i++) {
         if (MatriceA[i][i] != 0.0)
             echelonnage(MatriceA, dim, i);
@@ -60,7 +59,6 @@ double* Gauss(double** MatriceA, int dim, bool* test, int* temps) {
                 return NULL;
             }
         }
-        *temps = clock();
     }
 
     // résolution système

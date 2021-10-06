@@ -80,9 +80,7 @@ void calculD1b(double* M, double** MatriceA, double* solution, int dim) {
     free2D(d1, dim);
 }
 
-double* Jacobi(double** MatriceA, int dim, double* solution, int* itération,
-               int* temps) {
-    *temps = 0;
+double* Jacobi(double** MatriceA, int dim, double* solution, int* itération) {
     double* D1b = (double*)malloc(dim * sizeof(double));
     for (int i = 0; i < dim; ++i) D1b[i] = 0.0;
     double* inconnu = NULL;
@@ -111,7 +109,6 @@ double* Jacobi(double** MatriceA, int dim, double* solution, int* itération,
             inconnu[i] += D1b[i];
         }
         *itération = *itération + 1;
-        *temps = clock();
     }
 
     free(precedent);
